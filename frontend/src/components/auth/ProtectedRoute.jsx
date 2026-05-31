@@ -6,6 +6,7 @@ export default function ProtectedRoute({ roles }) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
+  // Show spinner while checking auth
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -17,10 +18,12 @@ export default function ProtectedRoute({ roles }) {
     );
   }
 
+  // Not logged in → go to landing page (not /login)
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
+  // Wrong role → go to dashboard
   if (roles && !roles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }

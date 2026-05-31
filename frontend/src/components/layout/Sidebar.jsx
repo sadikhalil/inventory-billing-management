@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Package, ShoppingCart, Receipt,
-  BarChart2, Layers, Users, Barcode, LogOut, ChevronRight,
+  BarChart2, Layers, Users, Barcode, LogOut, ChevronRight, Home,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -30,8 +30,8 @@ export default function Sidebar({ onClose }) {
 
   const handleLogout = async () => {
     await logout();
-    toast.success('Logged out');
-    navigate('/login');
+    toast.success('Logged out successfully');
+    navigate('/');          // ← goes to landing page, not /login
   };
 
   const sections = [
@@ -46,6 +46,7 @@ export default function Sidebar({ onClose }) {
 
   return (
     <aside className="flex flex-col h-full bg-white border-r border-gray-100">
+
       {/* Logo */}
       <div className="h-14 flex items-center gap-3 px-5 border-b border-gray-100 flex-shrink-0">
         <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
@@ -82,7 +83,10 @@ export default function Sidebar({ onClose }) {
                 >
                   {({ isActive }) => (
                     <>
-                      <item.icon size={16} className={isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'} />
+                      <item.icon
+                        size={16}
+                        className={isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}
+                      />
                       <span className="flex-1">{item.label}</span>
                       {isActive && <ChevronRight size={13} className="text-blue-400" />}
                     </>
@@ -96,6 +100,7 @@ export default function Sidebar({ onClose }) {
 
       {/* User footer */}
       <div className="flex-shrink-0 border-t border-gray-100 p-3">
+        {/* User info */}
         <div className="flex items-center gap-3 px-2 py-2 mb-1">
           <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-semibold text-xs flex-shrink-0">
             {user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
@@ -107,6 +112,17 @@ export default function Sidebar({ onClose }) {
             </span>
           </div>
         </div>
+
+        {/* Go to home page */}
+        <button
+          onClick={() => { navigate('/'); if (onClose) onClose(); }}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors duration-150 mb-0.5"
+        >
+          <Home size={15} />
+          Home page
+        </button>
+
+        {/* Sign out */}
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors duration-150"

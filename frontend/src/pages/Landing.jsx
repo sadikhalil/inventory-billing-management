@@ -85,8 +85,14 @@ const STEPS = [
 ];
 
 export default function Landing() {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate   = useNavigate();
+
+  // If already logged in, go straight to dashboard
+  if (user) {
+    navigate('/dashboard', { replace: true });
+    return null;
+  }
 
   const [modal,    setModal]    = useState(null); // 'login' | 'signup'
   const [mobileNav,setMobileNav]= useState(false);

@@ -9,12 +9,17 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    historyApiFallback: true,    // ← fixes 404 on page refresh
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
         changeOrigin: true,
       },
     },
+  },
+  preview: {
+    port: 3000,
+    historyApiFallback: true,    // ← also fixes 404 in preview mode
   },
   build: {
     outDir: 'dist',
@@ -23,7 +28,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
-          charts: ['chart.js', 'react-chartjs-2'],
+          charts:  ['chart.js', 'react-chartjs-2'],
         },
       },
     },
