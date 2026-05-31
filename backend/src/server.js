@@ -1,6 +1,9 @@
 'use strict';
 
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -37,8 +40,13 @@ app.use(helmet({
   },
 }));
 
-// CORS
-const allowedOrigins = ("https://inventory-billing-management-fronte.vercel.app/" || 'http://localhost:3000').split(',');
+// ── CORS ─────────────────────────────────────────────────
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',  // Vite dev server
+  'https://inventory-billing-management-fronte.vercel.app', // no trailing slash!
+];
+
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
@@ -49,7 +57,10 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Rate limiting
+// ✅ Handle preflight requests
+app.options('*', cors());
+
+// ── Rate Limiting ─────────────────────────────────────────
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 900000,
   max: parseInt(process.env.RATE_LIMIT_MAX) || 100,
@@ -88,16 +99,16 @@ app.get('/health', (req, res) => {
   });
 });
 
-// ── API Routes ────────────────────────────────────────────
-
-// Add this before your other routes
+// ── Root Route ────────────────────────────────────────────
 app.get('/', (req, res) => {
   res.json({
     success: true,
     message: 'Inventory Management API is running! 🚀',
-    version: '1.0.0'
+    version: '1.0.0',
   });
 });
+
+// ── API Routes ────────────────────────────────────────────
 const API = '/api/v1';
 app.use(`${API}/auth`, authLimiter, authRoutes);
 app.use(`${API}/products`, productRoutes);
@@ -107,7 +118,7 @@ app.use(`${API}/analytics`, analyticsRoutes);
 app.use(`${API}/inventory`, inventoryRoutes);
 app.use(`${API}/users`, userRoutes);
 
-// Static files (uploads)
+// ── Static Files ──────────────────────────────────────────
 app.use('/uploads', express.static('uploads'));
 
 // ── Error Handling ────────────────────────────────────────
@@ -117,7 +128,8 @@ app.use(errorHandler);
 // ── Start Server ──────────────────────────────────────────
 const PORT = parseInt(process.env.PORT) || 5000;
 
-if (process.env.NODE_ENV !== 'test') {
+// ✅ Don't listen on Vercel production
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     logger.info(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
     logger.info(`📡 API Base: http://localhost:${PORT}/api/v1`);
