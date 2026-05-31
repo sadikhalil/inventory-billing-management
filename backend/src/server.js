@@ -6,7 +6,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express');
 const helmet = require('helmet');
-const cors = require('cors');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 
@@ -15,7 +14,6 @@ const logger = require('./config/logger');
 const errorHandler = require('./middleware/errorHandler');
 const notFound = require('./middleware/notFound');
 
-// Route imports
 const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/product.routes');
 const orderRoutes = require('./routes/order.routes');
@@ -26,43 +24,39 @@ const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
-// ── CORS MUST BE FIRST ────────────────────────────────────
-// ✅ Must be before helmet and everything else!
+// ── CORS FIRST — Manual for Vercel ───────────────────────
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://inventory-billing-management-fronte.vercel.app',
 ];
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error(`CORS policy: origin ${origin} not allowed`));
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  optionsSuccessStatus: 200, // ✅ Important for preflight
-};
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
-// ✅ Handle preflight FIRST before anything else
-app.options('*', cors(corsOptions));
-app.use(cors(corsOptions));
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
 
-// ── Security Middleware ───────────────────────────────────
-// ✅ Helmet comes AFTER cors
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // ✅ Handle preflight immediately
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
+// ── Helmet AFTER cors ─────────────────────────────────────
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", 'data:', 'blob:'],
-    },
-  },
-  crossOriginResourcePolicy: { policy: 'cross-origin' }, // ✅ Add this
+  contentSecurityPolicy: false, // ✅ Disable CSP — can block requests
+  crossOriginResourcePolicy: false, // ✅ Disable CORP
 }));
 
-// ── Database ─────────────────────────────────────────────
+// ── Database ──────────────────────────────────────────────
 app.use(async (req, res, next) => {
   await connectDB();
   next();
@@ -78,14 +72,13 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Auth rate limit (stricter)
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   message: { success: false, message: 'Too many auth attempts, please try again in 15 minutes.' },
 });
 
-// ── Body Parsing ─────────────────────────────────────────
+// ── Body Parsing ──────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
@@ -138,9 +131,7 @@ const PORT = parseInt(process.env.PORT) || 5000;
 
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
-    logger.info(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-    logger.info(`📡 API Base: http://localhost:${PORT}/api/v1`);
-    logger.info(`❤️  Health:  http://localhost:${PORT}/health`);
+    logger.info(`🚀 Server running on port ${PORT}`);
   });
 }
 
