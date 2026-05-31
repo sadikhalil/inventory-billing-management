@@ -89,6 +89,15 @@ app.get('/health', (req, res) => {
 });
 
 // ── API Routes ────────────────────────────────────────────
+
+// Add this before your other routes
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'Inventory Management API is running! 🚀',
+    version: '1.0.0'
+  });
+});
 const API = '/api/v1';
 app.use(`${API}/auth`, authLimiter, authRoutes);
 app.use(`${API}/products`, productRoutes);
