@@ -26,14 +26,31 @@ const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
-// ── Database ─────────────────────────────────────────────
-// ✅ Runs on every request — works with Vercel serverless
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
+// ── CORS MUST BE FIRST ────────────────────────────────────
+// ✅ Must be before helmet and everything else!
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://inventory-billing-management-fronte.vercel.app',
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS policy: origin ${origin} not allowed`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200, // ✅ Important for preflight
+};
+
+// ✅ Handle preflight FIRST before anything else
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 
 // ── Security Middleware ───────────────────────────────────
+// ✅ Helmet comes AFTER cors
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -42,27 +59,14 @@ app.use(helmet({
       imgSrc: ["'self'", 'data:', 'blob:'],
     },
   },
+  crossOriginResourcePolicy: { policy: 'cross-origin' }, // ✅ Add this
 }));
 
-// ── CORS ─────────────────────────────────────────────────
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',  // Vite dev server
-  'https://inventory-billing-management-fronte.vercel.app', // no trailing slash!
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-    callback(new Error(`CORS policy: origin ${origin} not allowed`));
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-
-// ✅ Handle preflight requests
-app.options('*', cors());
+// ── Database ─────────────────────────────────────────────
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // ── Rate Limiting ─────────────────────────────────────────
 const limiter = rateLimit({
@@ -132,7 +136,6 @@ app.use(errorHandler);
 // ── Start Server ──────────────────────────────────────────
 const PORT = parseInt(process.env.PORT) || 5000;
 
-// ✅ Don't listen on Vercel production
 if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     logger.info(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
