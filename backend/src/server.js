@@ -38,7 +38,7 @@ app.use(helmet({
 }));
 
 // CORS
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000').split(',');
+const allowedOrigins = ("https://inventory-billing-management-fronte.vercel.app/" || 'http://localhost:3000').split(',');
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
