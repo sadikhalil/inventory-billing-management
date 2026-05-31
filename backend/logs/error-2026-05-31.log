@@ -7,3 +7,7 @@
 2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/movements — Invalid token. Please log in again.
 2026-05-31 06:48:07 [error]: 401 POST /api/v1/auth/refresh — Invalid or expired refresh token.
 2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/summary — Invalid token. Please log in again.
+2026-05-31 11:54:50 [error]: 500 POST /api/v1/auth/login — getaddrinfo ENOTFOUND ac-gogc01n-shard-00-02.zrmet53.mongodb.net
+2026-05-31 11:55:04 [error]: 500 POST /api/v1/auth/login — getaddrinfo ENOTFOUND ac-gogc01n-shard-00-02.zrmet53.mongodb.net
+2026-05-31 11:55:21 [error]: 500 POST /api/v1/auth/login — getaddrinfo ENOTFOUND ac-gogc01n-shard-00-02.zrmet53.mongodb.net
+2026-05-31 11:56:39 [error]: 500 POST /api/v1/auth/login — connection <monitor> to 35.244.59.90:27017 closed
