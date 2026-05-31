@@ -1,0 +1,30 @@
+2026-05-31 06:24:30 [info]: 🚀 Server running in development mode on port 5000
+2026-05-31 06:24:30 [info]: 📡 API Base: http://localhost:5000/api/v1
+2026-05-31 06:24:30 [info]: ❤️  Health:  http://localhost:5000/health
+2026-05-31 06:24:31 [info]: ✅ MongoDB connected: ac-gogc01n-shard-00-02.zrmet53.mongodb.net
+2026-05-31 06:26:30 [error]: 401 POST /api/v1/auth/login — Invalid email or password.
+2026-05-31 06:26:30 [error]: 401 POST /api/v1/auth/refresh — Refresh token mismatch. Please log in again.
+2026-05-31 06:26:57 [error]: 401 POST /api/v1/auth/login — Invalid email or password.
+2026-05-31 06:27:54 [error]: 401 POST /api/v1/auth/login — Invalid email or password.
+2026-05-31 06:28:35 [info]: New user registered: ahmed@gmail.com (viewer)
+2026-05-31 06:28:51 [info]: Login: ahmed@gmail.com
+2026-05-31 06:46:48 [info]: 🚀 Server running in development mode on port 5000
+2026-05-31 06:46:48 [info]: 📡 API Base: http://localhost:5000/api/v1
+2026-05-31 06:46:48 [info]: ❤️  Health:  http://localhost:5000/health
+2026-05-31 06:46:49 [info]: ✅ MongoDB connected: ac-gogc01n-shard-00-02.zrmet53.mongodb.net
+2026-05-31 06:47:01 [info]: 🚀 Server running in development mode on port 5000
+2026-05-31 06:47:01 [info]: 📡 API Base: http://localhost:5000/api/v1
+2026-05-31 06:47:01 [info]: ❤️  Health:  http://localhost:5000/health
+2026-05-31 06:47:01 [info]: ✅ MongoDB connected: ac-gogc01n-shard-00-01.zrmet53.mongodb.net
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/movements — Invalid token. Please log in again.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/summary — Invalid token. Please log in again.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/movements — Invalid token. Please log in again.
+2026-05-31 06:48:07 [error]: 401 POST /api/v1/auth/refresh — Invalid or expired refresh token.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/summary — Invalid token. Please log in again.
+2026-05-31 06:48:52 [info]: Login: admin@invotrack.com
+2026-05-31 06:51:07 [info]: New user registered: hajda@gmail.com (viewer)
+2026-05-31 06:52:34 [info]: Login: hajda@gmail.com
+2026-05-31 06:55:48 [info]: 🚀 Server running in development mode on port 5000
+2026-05-31 06:55:48 [info]: 📡 API Base: http://localhost:5000/api/v1
+2026-05-31 06:55:48 [info]: ❤️  Health:  http://localhost:5000/health
+2026-05-31 06:55:48 [info]: ✅ MongoDB connected: ac-gogc01n-shard-00-01.zrmet53.mongodb.net

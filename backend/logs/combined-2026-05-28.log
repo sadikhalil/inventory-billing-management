@@ -1,0 +1,14 @@
+2026-05-28 09:55:38 [info]: 🚀 Server running in development mode on port 5000
+2026-05-28 09:55:38 [info]: 📡 API Base: http://localhost:5000/api/v1
+2026-05-28 09:55:38 [info]: ❤️  Health:  http://localhost:5000/health
+2026-05-28 09:55:43 [error]: ❌ MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2026-05-28 10:15:49 [info]: 🚀 Server running in development mode on port 5000
+2026-05-28 10:15:49 [info]: 📡 API Base: http://localhost:5000/api/v1
+2026-05-28 10:15:49 [info]: ❤️  Health:  http://localhost:5000/health
+2026-05-28 10:15:50 [info]: ✅ MongoDB connected: ac-gogc01n-shard-00-00.zrmet53.mongodb.net
+2026-05-28 10:16:24 [error]: 404 GET /api/v1 — Route not found: GET /api/v1
+2026-05-28 10:16:24 [error]: 404 GET /favicon.ico — Route not found: GET /favicon.ico
+2026-05-28 10:16:41 [error]: 404 GET / — Route not found: GET /
+2026-05-28 10:16:54 [error]: 404 GET /docs — Route not found: GET /docs
+2026-05-28 10:16:58 [error]: 404 GET /docs — Route not found: GET /docs
+2026-05-28 10:17:06 [error]: 404 GET /api/v1/docs — Route not found: GET /api/v1/docs

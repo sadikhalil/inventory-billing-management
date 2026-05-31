@@ -1,0 +1,7 @@
+2026-05-28 09:55:43 [error]: ❌ MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2026-05-28 10:16:24 [error]: 404 GET /api/v1 — Route not found: GET /api/v1
+2026-05-28 10:16:24 [error]: 404 GET /favicon.ico — Route not found: GET /favicon.ico
+2026-05-28 10:16:41 [error]: 404 GET / — Route not found: GET /
+2026-05-28 10:16:54 [error]: 404 GET /docs — Route not found: GET /docs
+2026-05-28 10:16:58 [error]: 404 GET /docs — Route not found: GET /docs
+2026-05-28 10:17:06 [error]: 404 GET /api/v1/docs — Route not found: GET /api/v1/docs

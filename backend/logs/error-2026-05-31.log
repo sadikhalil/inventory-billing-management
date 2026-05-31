@@ -1,0 +1,9 @@
+2026-05-31 06:26:30 [error]: 401 POST /api/v1/auth/login — Invalid email or password.
+2026-05-31 06:26:30 [error]: 401 POST /api/v1/auth/refresh — Refresh token mismatch. Please log in again.
+2026-05-31 06:26:57 [error]: 401 POST /api/v1/auth/login — Invalid email or password.
+2026-05-31 06:27:54 [error]: 401 POST /api/v1/auth/login — Invalid email or password.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/movements — Invalid token. Please log in again.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/summary — Invalid token. Please log in again.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/movements — Invalid token. Please log in again.
+2026-05-31 06:48:07 [error]: 401 POST /api/v1/auth/refresh — Invalid or expired refresh token.
+2026-05-31 06:48:07 [error]: 401 GET /api/v1/inventory/summary — Invalid token. Please log in again.
