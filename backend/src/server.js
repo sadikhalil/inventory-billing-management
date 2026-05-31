@@ -27,7 +27,11 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 
 // ── Database ─────────────────────────────────────────────
-connectDB();
+// ✅ Runs on every request — works with Vercel serverless
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // ── Security Middleware ───────────────────────────────────
 app.use(helmet({
